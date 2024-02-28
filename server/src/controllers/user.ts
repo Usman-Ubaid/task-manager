@@ -1,31 +1,24 @@
-import { Request, Response } from "express";
-import mongoose from "mongoose";
+import { NextFunction, Request, Response } from "express";
 import { createUser } from "../services/user";
-import { handleValidationError } from "../utils/validationError";
 import User from "../models/User";
 import { comparePasswords, generateJWT } from "../services/auth";
 
 export const userController = {
-  registerUser: async (req: Request, res: Response) => {
+  registerUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { username, email, password } = req.body;
       const result = await createUser(username, email, password);
       res.status(result.status).json(result.data);
     } catch (error) {
-      if (error instanceof mongoose.Error.ValidationError) {
-        const validationErrors = handleValidationError(error);
-        return res.status(400).json({ validationErrors });
-      } else {
-        return res.status(500).json({ message: "Internal server error" });
-      }
+      next(error);
     }
   },
-  loginUser: async (req: Request, res: Response) => {
+  loginUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
 
       if (!email || !password) {
-        return res.status(400).json({ error: "Please fill all the fields" });
+        throw new Error("Please fill all the fields");
       }
 
       const user = await User.findOne({ email });
@@ -42,10 +35,10 @@ export const userController = {
           },
         });
       } else {
-        return res.status(400).json({ message: "Invalid Credentials" });
+        throw new Error("Invalid Credentials");
       }
     } catch (error) {
-      return res.status(500).json({ message: "Internal server error" });
+      next(error);
     }
   },
 };

@@ -7,12 +7,12 @@ export const createUser = async (
   password: string
 ) => {
   if (!username || !email || !password) {
-    return { status: 400, data: { error: "Please fill all the fields." } };
+    throw new Error("Please fill all the fields.");
   }
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return { status: 400, data: { error: "User already exists" } };
+    throw new Error("User already exists.");
   }
 
   const hashedPassword = await hashPassword(password);
