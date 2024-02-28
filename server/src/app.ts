@@ -15,10 +15,10 @@ app.use(cors());
 connectDB();
 
 // Routes
-app.use("/", (req, res) => {
+app.use("/api", routes);
+
+app.get("/", (req, res) => {
   res.status(200).json({ message: "Hello from server" });
 });
-
-app.use("/api", routes);
 
 export default app;
