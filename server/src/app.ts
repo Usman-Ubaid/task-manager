@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { connectDB } from "./config/db";
+import routes from "./routes";
 
 // Create Express application
 const app: Application = express();
@@ -17,5 +18,7 @@ connectDB();
 app.use("/", (req, res) => {
   res.status(200).json({ message: "Hello from server" });
 });
+
+app.use("/api", routes);
 
 export default app;
