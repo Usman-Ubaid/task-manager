@@ -14,9 +14,7 @@ export const userController = {
         const validationErrors = handleValidationError(error);
         return res.status(400).json({ validationErrors });
       } else {
-        return res
-          .status(500)
-          .json({ message: "Internal server error", error });
+        return res.status(500).json({ message: "Internal server error" });
       }
     }
   },

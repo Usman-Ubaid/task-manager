@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 const validateEmail = function (email: string) {
-  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return re.test(email);
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return regex.test(email);
 };
 
 export interface UserInterface extends Document {
@@ -32,12 +32,5 @@ const UserSchema: Schema = new Schema({
 });
 
 const User = mongoose.model<UserInterface>("User", UserSchema);
-
-UserSchema.pre("validate", function (this: UserInterface, next) {
-  if (this.email) {
-    this.email = this.email.toLowerCase();
-  }
-  next();
-});
 
 export default User;

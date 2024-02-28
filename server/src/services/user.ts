@@ -1,4 +1,5 @@
 import User from "../models/User";
+import { generateJWT, hashPassword } from "./auth";
 
 export const createUser = async (
   username: string,
@@ -14,8 +15,16 @@ export const createUser = async (
     return { status: 400, data: { error: "User already exists" } };
   }
 
-  const newUser = new User({ username, email, password });
+  const hashedPassword = await hashPassword(password);
+
+  const newUser = new User({
+    username,
+    email,
+    password: hashedPassword,
+  });
+
   await newUser.save();
+  const token = generateJWT(newUser._id);
 
   return {
     status: 201,
@@ -25,6 +34,7 @@ export const createUser = async (
         id: newUser._id,
         username: newUser.username,
         email: newUser.email,
+        token,
       },
     },
   };
