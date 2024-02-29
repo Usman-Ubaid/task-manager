@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import mongoose, { ObjectId } from "mongoose";
 
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET;
@@ -12,9 +13,9 @@ export const comparePasswords = (userPassword: string, dbPassword: string) => {
   return bcrypt.compare(userPassword, dbPassword);
 };
 
-export const generateJWT = (id: string) => {
+export const generateJWT = (payload: Object) => {
   if (jwtSecret) {
-    return jwt.sign({ id }, jwtSecret);
+    return jwt.sign({ payload }, jwtSecret);
   }
 };
 
