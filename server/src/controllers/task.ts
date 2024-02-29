@@ -24,4 +24,14 @@ export const taskController = {
       next(error);
     }
   },
+  getAllTasks: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const tasks = await Task.find()
+        .populate({ path: "user", select: "_id username" })
+        .exec();
+      return res.status(200).json({ message: "success", tasks });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
