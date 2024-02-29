@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import mongoose from "mongoose";
 import Task from "../models/Task";
 
 export const taskController = {
@@ -30,6 +31,29 @@ export const taskController = {
         .populate({ path: "user", select: "_id username" })
         .exec();
       return res.status(200).json({ message: "success", tasks });
+    } catch (error) {
+      next(error);
+    }
+  },
+  getSingleTask: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { taskId } = req.params;
+      if (!mongoose.Types.ObjectId.isValid(taskId)) {
+        throw new Error("Invalid task id");
+      }
+
+      const task = await Task.findById({ _id: taskId })
+        .populate({
+          path: "user",
+          select: "_id username",
+        })
+        .exec();
+
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
+      return res.status(200).json({ message: "success", task });
     } catch (error) {
       next(error);
     }
