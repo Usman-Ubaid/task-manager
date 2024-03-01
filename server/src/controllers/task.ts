@@ -104,4 +104,24 @@ export const taskController = {
       next(error);
     }
   },
+  deleteTask: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { taskId } = req.params;
+
+      if (!mongoose.Types.ObjectId.isValid(taskId)) {
+        throw new ApiError("Invalid task id", 400);
+      }
+
+      const task = await Task.findById({ _id: taskId });
+
+      if (!task) {
+        throw new ApiError("Task Not Found", 404);
+      }
+
+      await Task.deleteOne({ _id: taskId });
+      res.status(200).json({ message: "Task deleted successfully", task });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
