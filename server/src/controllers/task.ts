@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import Task from "../models/Task";
 import { ApiError } from "../utils/ApiError";
+import { getTaskById } from "../services/task";
 
 export const taskController = {
   addTask: async (req: Request, res: Response, next: NextFunction) => {
@@ -43,16 +44,16 @@ export const taskController = {
         throw new ApiError("Invalid task id", 400);
       }
 
-      const task = await Task.findById({ _id: taskId })
-        .populate({
-          path: "user",
-          select: "_id username",
-        })
-        .exec();
+      const task = await getTaskById(taskId);
 
       if (!task) {
         throw new ApiError("Task Not Found", 404);
       }
+
+      await task.populate({
+        path: "user",
+        select: "_id username",
+      });
 
       return res.status(200).json({ message: "success", task });
     } catch (error) {
@@ -68,12 +69,7 @@ export const taskController = {
         throw new ApiError("Invalid task id", 400);
       }
 
-      const task = await Task.findById({ _id: taskId })
-        .populate({
-          path: "user",
-          select: "_id username",
-        })
-        .exec();
+      const task = await getTaskById(taskId);
 
       if (!task) {
         throw new ApiError("Task Not Found", 404);
@@ -112,7 +108,7 @@ export const taskController = {
         throw new ApiError("Invalid task id", 400);
       }
 
-      const task = await Task.findById({ _id: taskId });
+      const task = await getTaskById(taskId);
 
       if (!task) {
         throw new ApiError("Task Not Found", 404);
