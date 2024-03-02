@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import mongoose, { ObjectId } from "mongoose";
 
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET;
