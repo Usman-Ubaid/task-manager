@@ -1,12 +1,12 @@
-import StyledContainer from "../styles/common/Container";
-import StyledHeader from "../styles/common/Header";
-import StyledWrapper from "../styles/common/Wrapper";
-import StyledLink from "../styles/common/Link";
 import Input from "../components/form/Input";
 import StyledForm from "../styles/Form";
 import { SubmitButton } from "../styles/Input";
+import StyledContainer from "../styles/common/Container";
+import StyledHeader from "../styles/common/Header";
+import StyledLink from "../styles/common/Link";
+import StyledWrapper from "../styles/common/Wrapper";
 
-const Login = () => {
+const Register = () => {
   return (
     <StyledWrapper>
       <StyledContainer>
@@ -16,6 +16,15 @@ const Login = () => {
         </StyledHeader>
         <div className="form-wrapper">
           <StyledForm>
+            <label
+              hidden
+              className="label-hidden"
+              htmlFor="username"
+              aria-hidden="true"
+            >
+              Title
+            </label>
+            <Input type="text" placeholder="Enter username" />
             <label
               hidden
               className="label-hidden"
@@ -33,8 +42,8 @@ const Login = () => {
             >
               Password
             </label>
-            <Input type="password" placeholder="Enter email" />
-            <SubmitButton type="submit" value="Login" />
+            <Input type="password" placeholder="Enter password" />
+            <SubmitButton type="submit" value="Register" />
           </StyledForm>
         </div>
       </StyledContainer>
@@ -42,4 +51,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
