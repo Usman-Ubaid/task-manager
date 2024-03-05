@@ -9,6 +9,7 @@ import useForm from "../hooks/useForm";
 import { loginUser } from "../services/authApi";
 import { errorMessage } from "../utils/errorMessage";
 import { setToastMessage } from "../utils/toastMessage";
+import { saveToken } from "../utils/saveToken";
 
 const Login = () => {
   const { formData, handleInputChange } = useForm({ email: "", password: "" });
@@ -17,6 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const result = await loginUser(formData);
+      saveToken(result.user.token);
       setToastMessage("success", result.message);
     } catch (err) {
       const error = errorMessage(err);
