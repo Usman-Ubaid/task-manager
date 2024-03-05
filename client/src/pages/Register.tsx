@@ -5,7 +5,8 @@ import StyledContainer from "../styles/common/Container";
 import StyledHeader from "../styles/common/Header";
 import StyledLink from "../styles/common/Link";
 import StyledWrapper from "../styles/common/Wrapper";
-import useForm, { FormValues } from "../hooks/useForm";
+import useForm from "../hooks/useForm";
+import { registerUser } from "../services/authApi";
 
 const Register = () => {
   const { formData, handleInputChange } = useForm({
@@ -17,29 +18,6 @@ const Register = () => {
   const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const registerUser = async (formData: FormValues) => {
-        const response = await fetch(
-          "http://localhost:5000/api/users/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: formData.username,
-              email: formData.email,
-              password: formData.password,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Login failed");
-        }
-
-        return response.json();
-      };
-
       const result = registerUser(formData);
       console.log(result);
     } catch (error) {

@@ -5,7 +5,8 @@ import StyledLink from "../styles/common/Link";
 import Input from "../components/form/Input";
 import StyledForm from "../styles/Form";
 import { SubmitButton } from "../styles/Input";
-import useForm, { FormValues } from "../hooks/useForm";
+import useForm from "../hooks/useForm";
+import { loginUser } from "../services/authApi";
 
 const Login = () => {
   const { formData, handleInputChange } = useForm({ email: "", password: "" });
@@ -13,25 +14,6 @@ const Login = () => {
   const handleLoginSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginUser = async (formData: FormValues) => {
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Login failed");
-        }
-
-        return response.json();
-      };
-
       const result = loginUser(formData);
       console.log(result);
     } catch (error) {
