@@ -9,7 +9,7 @@ import useForm from "../hooks/useForm";
 import { loginUser } from "../services/authApi";
 import { errorMessage } from "../utils/errorMessage";
 import { setToastMessage } from "../utils/toastMessage";
-import { saveToken } from "../utils/saveToken";
+import { saveToken } from "../utils/tokenStorage";
 
 const Login = () => {
   const { formData, handleInputChange } = useForm({ email: "", password: "" });
