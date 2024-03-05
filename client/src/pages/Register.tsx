@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Input from "../components/form/Input";
 import StyledForm from "../styles/Form";
 import { SubmitButton } from "../styles/Input";
@@ -6,7 +7,57 @@ import StyledHeader from "../styles/common/Header";
 import StyledLink from "../styles/common/Link";
 import StyledWrapper from "../styles/common/Wrapper";
 
+type RegisterForm = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 const Register = () => {
+  const [formData, setFormData] = useState<RegisterForm>({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const registerUser = async (formData: RegisterForm) => {
+        const response = await fetch(
+          "http://localhost:5000/api/users/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: formData.username,
+              email: formData.email,
+              password: formData.password,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Login failed");
+        }
+
+        return response.json();
+      };
+
+      const result = registerUser(formData);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <StyledWrapper>
       <StyledContainer>
@@ -15,7 +66,7 @@ const Register = () => {
           <StyledLink to="/register">Register</StyledLink>
         </StyledHeader>
         <div className="form-wrapper">
-          <StyledForm>
+          <StyledForm onSubmit={handleSubmitForm}>
             <label
               hidden
               className="label-hidden"
@@ -24,7 +75,13 @@ const Register = () => {
             >
               Title
             </label>
-            <Input type="text" placeholder="Enter username" />
+            <Input
+              type="text"
+              placeholder="Enter username"
+              id="username"
+              value={formData.username}
+              onChange={handleInputChange}
+            />
             <label
               hidden
               className="label-hidden"
@@ -33,7 +90,13 @@ const Register = () => {
             >
               Title
             </label>
-            <Input type="text" placeholder="Enter email" />
+            <Input
+              type="text"
+              placeholder="Enter email"
+              id="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
             <label
               aria-hidden="true"
               hidden
@@ -42,7 +105,13 @@ const Register = () => {
             >
               Password
             </label>
-            <Input type="password" placeholder="Enter password" />
+            <Input
+              type="password"
+              placeholder="Enter password"
+              id="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
             <SubmitButton type="submit" value="Register" />
           </StyledForm>
         </div>
