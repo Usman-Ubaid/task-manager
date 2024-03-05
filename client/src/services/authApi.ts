@@ -14,8 +14,14 @@ export const loginUser = async (formValues: FormValues) => {
     }),
   });
 
+  if (!response.ok) {
+    const result = await response.json();
+    throw new Error(result.error);
+  }
+
   return response.json();
 };
+
 export const registerUser = async (formValues: FormValues) => {
   const response = await fetch(`${BASE_URL}/register`, {
     method: "POST",
@@ -28,6 +34,11 @@ export const registerUser = async (formValues: FormValues) => {
       password: formValues.password,
     }),
   });
+
+  if (!response.ok) {
+    const result = await response.json();
+    throw new Error(result.error);
+  }
 
   return response.json();
 };

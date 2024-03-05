@@ -7,17 +7,20 @@ import StyledForm from "../styles/Form";
 import { SubmitButton } from "../styles/Input";
 import useForm from "../hooks/useForm";
 import { loginUser } from "../services/authApi";
+import { errorMessage } from "../utils/errorMessage";
+import { setToastMessage } from "../utils/toastMessage";
 
 const Login = () => {
   const { formData, handleInputChange } = useForm({ email: "", password: "" });
 
-  const handleLoginSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = loginUser(formData);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+      const result = await loginUser(formData);
+      setToastMessage("success", result.message);
+    } catch (err) {
+      const error = errorMessage(err);
+      setToastMessage("error", error);
     }
   };
 

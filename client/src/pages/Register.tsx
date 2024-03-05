@@ -7,6 +7,8 @@ import StyledLink from "../styles/common/Link";
 import StyledWrapper from "../styles/common/Wrapper";
 import useForm from "../hooks/useForm";
 import { registerUser } from "../services/authApi";
+import { errorMessage } from "../utils/errorMessage";
+import { setToastMessage } from "../utils/toastMessage";
 
 const Register = () => {
   const { formData, handleInputChange } = useForm({
@@ -15,13 +17,14 @@ const Register = () => {
     password: "",
   });
 
-  const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = registerUser(formData);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+      const result = await registerUser(formData);
+      setToastMessage("success", result.message);
+    } catch (err) {
+      const error = errorMessage(err);
+      setToastMessage("error", error);
     }
   };
 
