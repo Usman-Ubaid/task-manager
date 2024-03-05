@@ -29,7 +29,7 @@ app.use(apiErrorHandler);
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   let statusCode = 500;
-  return res.status(statusCode).json({ message: "Internal server error" });
+  return res.status(statusCode).json({ error: "Internal server error" });
 });
 
 export default app;
