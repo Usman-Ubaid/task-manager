@@ -1,4 +1,3 @@
-import { useState } from "react";
 import StyledContainer from "../styles/common/Container";
 import StyledHeader from "../styles/common/Header";
 import StyledWrapper from "../styles/common/Wrapper";
@@ -6,30 +5,15 @@ import StyledLink from "../styles/common/Link";
 import Input from "../components/form/Input";
 import StyledForm from "../styles/Form";
 import { SubmitButton } from "../styles/Input";
-
-type LoginForm = {
-  email: "";
-  password: "";
-};
+import useForm, { FormValues } from "../hooks/useForm";
 
 const Login = () => {
-  const [formData, setFormData] = useState<LoginForm>({
-    email: "",
-    password: "",
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+  const { formData, handleInputChange } = useForm({ email: "", password: "" });
 
   const handleLoginSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginUser = async (formData: LoginForm) => {
+      const loginUser = async (formData: FormValues) => {
         const response = await fetch("http://localhost:5000/api/users/login", {
           method: "POST",
           headers: {
