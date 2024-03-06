@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import StyledContainer from "../styles/common/Container";
 import StyledHeader from "../styles/common/Header";
 import StyledWrapper from "../styles/common/Wrapper";
@@ -13,6 +14,7 @@ import { saveToken } from "../utils/tokenStorage";
 
 const Login = () => {
   const { formData, handleInputChange } = useForm({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const Login = () => {
       const result = await loginUser(formData);
       saveToken(result.user.token);
       setToastMessage("success", result.message);
+      navigate("/");
     } catch (err) {
       const error = errorMessage(err);
       setToastMessage("error", error);

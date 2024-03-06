@@ -25,3 +25,12 @@ span {
   width: 100%;
   margin: 1rem;
 }
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
