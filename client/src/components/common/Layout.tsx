@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <div>
         <Sidebar />
       </div>
-      <div>{children}</div>
+      <div className="child-div">{children}</div>
     </StyledLayout>
   );
 };
@@ -18,6 +18,11 @@ const StyledLayout = styled.div`
   display: flex;
   gap: 2.5rem;
   height: 100%;
+  width: 100%;
+
+  .child-div {
+    width: 100%;
+  }
 `;
 
 export default Layout;
