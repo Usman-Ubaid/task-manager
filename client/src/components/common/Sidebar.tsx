@@ -125,9 +125,9 @@ const StyledSidebar = styled.nav`
 
   .active {
     background-color: rgba(249, 249, 249, 0.08);
+    color: rgba(249, 249, 249, 0.75);
 
-    span,
-    a {
+    span {
       color: rgba(249, 249, 249, 0.75);
     }
   }
