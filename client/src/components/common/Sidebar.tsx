@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { MdHome } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
 import { FaListCheck, FaCheck } from "react-icons/fa6";
-import { RiTodoLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -26,12 +25,6 @@ const Sidebar = () => {
       icon: <FaCheck />,
       link: "/completed",
     },
-    {
-      id: 4,
-      title: "Do it now",
-      icon: <RiTodoLine />,
-      link: "/incomplete",
-    },
   ];
   return (
     <StyledSidebar>
@@ -39,13 +32,15 @@ const Sidebar = () => {
       <div>
         <ul className="nav-items">
           {menu.map((item) => (
-            <li
-              key={item.id}
-              className={`nav-item ${pathname === item.link ? "active" : ""}`}
-            >
-              <span>{item.icon}</span>
-              <Link to={item.link}>{item.title}</Link>
-            </li>
+            <Link to={item.link}>
+              <li
+                key={item.id}
+                className={`nav-item ${pathname === item.link ? "active" : ""}`}
+              >
+                <span>{item.icon}</span>
+                {item.title}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

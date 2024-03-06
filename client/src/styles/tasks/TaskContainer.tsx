@@ -1,64 +1,6 @@
 import styled from "styled-components";
-import { FaPlus } from "react-icons/fa";
-import Layout from "../components/common/Layout";
-import TaskItem from "../components/tasks/TaskItem";
 
-const Dashboard = () => {
-  const tasks = [
-    {
-      id: 1,
-      title: "Watch a video",
-      description: "This is to learn something from tutorial",
-      dueDate: "06/04/2024",
-    },
-    {
-      id: 2,
-      title: "Watch a video",
-      description: "This is to learn something from tutorial",
-      dueDate: "06/04/2024",
-    },
-    {
-      id: 3,
-      title: "Watch a video",
-      description: "This is to learn something from tutorial",
-      dueDate: "06/04/2024",
-    },
-    {
-      id: 4,
-      title: "Watch a video",
-      description: "This is to learn something from tutorial",
-      dueDate: "06/04/2024",
-    },
-    {
-      id: 5,
-      title: "Watch a video",
-      description: "This is to learn something from tutorial",
-      dueDate: "06/04/2024",
-    },
-  ];
-  return (
-    <Layout>
-      <StyledDashboard>
-        <h1>All Tasks</h1>
-        <button className="btn-rounded">
-          <FaPlus />
-        </button>
-        <div className="tasks">
-          {tasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              title={task.title}
-              description={task.description}
-              date={task.dueDate}
-            />
-          ))}
-        </div>
-      </StyledDashboard>
-    </Layout>
-  );
-};
-
-const StyledDashboard = styled.div`
+export const StyledTaskContainer = styled.div`
   position: relative;
   padding: 2rem;
   width: 100%;
@@ -148,5 +90,3 @@ const StyledDashboard = styled.div`
     }
   }
 `;
-
-export default Dashboard;

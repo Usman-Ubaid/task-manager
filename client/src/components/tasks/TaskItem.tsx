@@ -4,14 +4,16 @@ type TaskItemProps = {
   title: string;
   description: string;
   date: string;
+  priority: string;
 };
 
-function TaskItem({ title, description, date }: TaskItemProps) {
+function TaskItem({ title, description, date, priority }: TaskItemProps) {
   return (
     <TaskItemStyled>
       <h3>{title}</h3>
       <p>{description}</p>
       <p className="date">{date}</p>
+      <p>Priority: {priority}</p>
     </TaskItemStyled>
   );
 }
