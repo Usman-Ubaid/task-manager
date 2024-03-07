@@ -2,16 +2,27 @@ import styled from "styled-components";
 import { SubmitButton } from "../../styles/Input";
 import Input from "../form/Input";
 import useForm from "../../hooks/useForm";
+import { addTaskApi } from "../../services/taskApi";
 
 function CreateContent() {
   const { formData, handleInputChange } = useForm({
     title: "",
     description: "",
-    dueDate: "",
+    date: "",
   });
 
+  const handleTaskSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const result = await addTaskApi(formData);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <CreateContentStyled>
+    <CreateContentStyled onSubmit={handleTaskSubmit}>
       <h2>Create a Task</h2>
       <div className="input-control">
         <label htmlFor="title">Title</label>
@@ -37,7 +48,7 @@ function CreateContent() {
       <div className="input-control">
         <label htmlFor="date">Date</label>
         <Input
-          value={formData.dueDate}
+          value={formData.date}
           onChange={handleInputChange}
           type="date"
           id="date"
