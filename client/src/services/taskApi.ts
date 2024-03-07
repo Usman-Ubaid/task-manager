@@ -10,11 +10,7 @@ export const addTaskApi = async (formValues: FormValues) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      title: formValues.title,
-      description: formValues.description,
-      dueDate: formValues.date,
-    }),
+    body: JSON.stringify(formValues),
   });
 
   return response.json();

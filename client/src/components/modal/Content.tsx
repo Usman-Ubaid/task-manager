@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { SubmitButton } from "../../styles/Input";
 import Input from "../form/Input";
-import useForm from "../../hooks/useForm";
+import useForm, { FormValues } from "../../hooks/useForm";
+import { useMutation } from "@tanstack/react-query";
+import { setToastMessage } from "../../utils/toastMessage";
 import { addTaskApi } from "../../services/taskApi";
 
 function CreateContent() {
@@ -11,11 +13,24 @@ function CreateContent() {
     date: "",
   });
 
-  const handleTaskSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const { mutate } = useMutation({
+    mutationFn: (newTask: FormValues) => addTaskApi(newTask),
+    onSuccess() {
+      setToastMessage("success", "Task Added Successfully");
+    },
+    onError() {
+      setToastMessage("error", "Error adding the task");
+    },
+  });
+
+  const handleTaskSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = await addTaskApi(formData);
-      console.log(result);
+      mutate({
+        title: formData.title,
+        description: formData.description,
+        dueDate: formData.date,
+      });
     } catch (error) {
       console.log(error);
     }
