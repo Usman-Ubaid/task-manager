@@ -1,11 +1,23 @@
 import { FaPlus } from "react-icons/fa";
 import TaskItem from "./TaskItem";
+import { useState } from "react";
+import Modal from "../modal/Modal";
+import Content from "../modal/Content";
+import { StyledTaskContainer } from "../../styles/tasks/TaskContainer";
 
 type TaskProps = {
   title: string;
 };
 
 const Tasks = ({ title }: TaskProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   const tasks = [
     {
       id: 1,
@@ -44,9 +56,10 @@ const Tasks = ({ title }: TaskProps) => {
     },
   ];
   return (
-    <>
+    <StyledTaskContainer>
+      {isOpen && <Modal isClose={closeModal} content={<Content />} />}
       <h1>{title}</h1>
-      <button className="btn-rounded">
+      <button onClick={openModal} className="btn-rounded">
         <FaPlus />
       </button>
       <div className="tasks">
@@ -60,7 +73,7 @@ const Tasks = ({ title }: TaskProps) => {
           />
         ))}
       </div>
-    </>
+    </StyledTaskContainer>
   );
 };
 

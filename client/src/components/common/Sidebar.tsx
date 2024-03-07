@@ -32,9 +32,8 @@ const Sidebar = () => {
       <div>
         <ul className="nav-items">
           {menu.map((item) => (
-            <Link to={item.link}>
+            <Link key={item.id} to={item.link}>
               <li
-                key={item.id}
                 className={`nav-item ${pathname === item.link ? "active" : ""}`}
               >
                 <span>{item.icon}</span>

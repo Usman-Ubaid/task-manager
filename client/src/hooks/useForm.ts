@@ -6,7 +6,11 @@ export type FormValues = {
 const useForm = (initialValues: FormValues) => {
   const [formData, setFormData] = useState<FormValues>(initialValues);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     e.preventDefault();
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };

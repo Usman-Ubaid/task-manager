@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ $isWidth?: boolean }>`
   background: rgba(255, 255, 255, 0.15);
   border-radius: 2rem;
-  width: 80%;
+  width: ${(props) => (props.$isWidth ? "100%" : "80%")};
   padding: 1rem;
   margin-bottom: 2rem;
   border: none;

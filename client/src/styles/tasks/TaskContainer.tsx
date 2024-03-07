@@ -22,6 +22,7 @@ export const StyledTaskContainer = styled.div`
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
+    cursor: pointer;
 
     background-color: #252525;
     border: 2px solid rgba(249, 249, 249, 0.08);
@@ -32,6 +33,10 @@ export const StyledTaskContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover {
+      background-color: rgba(108, 121, 131, 0.3);
+    }
 
     @media screen and (max-width: 768px) {
       top: 3rem;
