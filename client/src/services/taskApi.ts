@@ -15,3 +15,15 @@ export const addTaskApi = async (formValues: FormValues) => {
 
   return response.json();
 };
+
+export const getAllTasks = async () => {
+  const response = await fetch(`http://localhost:5000/api/tasks`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return await response.json();
+};
