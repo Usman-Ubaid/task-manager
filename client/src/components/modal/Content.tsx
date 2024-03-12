@@ -2,21 +2,28 @@ import styled from "styled-components";
 import { SubmitButton } from "../../styles/Input";
 import Input from "../form/Input";
 import useForm, { FormValues } from "../../hooks/useForm";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setToastMessage } from "../../utils/toastMessage";
 import { addTaskApi } from "../../services/taskApi";
 
-function CreateContent() {
+type ContentProps = {
+  isClose: () => void;
+};
+
+function CreateContent({ isClose }: ContentProps) {
   const { formData, handleInputChange } = useForm({
     title: "",
     description: "",
     date: "",
   });
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (newTask: FormValues) => addTaskApi(newTask),
     onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setToastMessage("success", "Task Added Successfully");
+      isClose();
     },
     onError() {
       setToastMessage("error", "Error adding the task");
@@ -25,12 +32,13 @@ function CreateContent() {
 
   const handleTaskSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const newTask = {
+      title: formData.title,
+      description: formData.description,
+      dueDate: formData.date,
+    };
     try {
-      mutate({
-        title: formData.title,
-        description: formData.description,
-        dueDate: formData.date,
-      });
+      mutate(newTask);
     } catch (error) {
       console.log(error);
     }

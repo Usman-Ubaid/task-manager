@@ -23,7 +23,12 @@ const Tasks = ({ title, tasks }: TaskProps) => {
 
   return (
     <StyledTaskContainer>
-      {isOpen && <Modal isClose={closeModal} content={<Content />} />}
+      {isOpen && (
+        <Modal
+          isClose={closeModal}
+          content={<Content isClose={closeModal} />}
+        />
+      )}
       <h1>{title}</h1>
       <button onClick={openModal} className="btn-rounded">
         <FaPlus />

@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import { getAllTasks } from "../services/taskApi";
+import { useQuery } from "@tanstack/react-query";
 
 export type Task = {
   _id: number;
@@ -12,35 +13,18 @@ export type Task = {
 
 type TaskContextValue = {
   tasks: Task[];
-  updateTasks: (newTask: Task) => void;
 };
 
 export const TaskContext = createContext<TaskContextValue>({
   tasks: [],
-  updateTasks: () => {},
 });
 
 export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  const updateTasks = (newTask: Task) => {
-    setTasks([...tasks, newTask]);
-  };
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await getAllTasks();
-      console.log(response.tasks);
-      setTasks(response.tasks);
-      return response;
-    };
-    fetchTasks();
-  }, []);
+  const query = useQuery({ queryKey: ["tasks"], queryFn: getAllTasks });
+  const tasks = query?.data?.tasks;
 
   return (
-    <TaskContext.Provider value={{ tasks, updateTasks }}>
-      {children}
-    </TaskContext.Provider>
+    <TaskContext.Provider value={{ tasks }}>{children}</TaskContext.Provider>
   );
 };
 
