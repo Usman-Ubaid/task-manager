@@ -8,11 +8,16 @@ type TaskItemProps = {
 };
 
 function TaskItem({ title, description, date, priority }: TaskItemProps) {
+  const formatDate = new Date(date);
+  const day = formatDate.getDay();
+  const month = formatDate.getMonth() + 1;
+  const year = formatDate.getFullYear();
+
   return (
     <TaskItemStyled>
       <h3>{title}</h3>
       <p>{description}</p>
-      <p className="date">{date}</p>
+      <p className="date">{`${day}/${month}/${year}`}</p>
       <p>Priority: {priority}</p>
     </TaskItemStyled>
   );
