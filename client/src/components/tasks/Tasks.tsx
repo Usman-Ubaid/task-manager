@@ -4,15 +4,15 @@ import { useState } from "react";
 import Modal from "../modal/Modal";
 import Content from "../modal/Content";
 import { StyledTaskContainer } from "../../styles/tasks/TaskContainer";
-import { useTask } from "../../hooks/TaskContext";
+import { Task } from "../../hooks/TaskContext";
 
 type TaskProps = {
   title: string;
+  tasks: Task[];
 };
 
-const Tasks = ({ title }: TaskProps) => {
+const Tasks = ({ title, tasks }: TaskProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { tasks } = useTask();
 
   const openModal = () => {
     setIsOpen(true);
@@ -20,44 +20,6 @@ const Tasks = ({ title }: TaskProps) => {
   const closeModal = () => {
     setIsOpen(false);
   };
-
-  // const mockTasks = [
-  //   {
-  //     id: 1,
-  //     title: "Watch a video",
-  //     description: "This is to learn something from tutorial",
-  //     dueDate: "06/04/2024",
-  //     priority: "Low",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Watch a video",
-  //     description: "This is to learn something from tutorial",
-  //     dueDate: "06/04/2024",
-  //     priority: "Low",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Watch a video",
-  //     description: "This is to learn something from tutorial",
-  //     dueDate: "06/04/2024",
-  //     priority: "High",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Watch a video",
-  //     description: "This is to learn something from tutorial",
-  //     dueDate: "06/04/2024",
-  //     priority: "Medium",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Watch a video",
-  //     description: "This is to learn something from tutorial",
-  //     dueDate: "06/04/2024",
-  //     priority: "Low",
-  //   },
-  // ];
 
   return (
     <StyledTaskContainer>

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllTasks } from "../services/taskApi";
 
-type Task = {
+export type Task = {
   _id: number;
   title: string;
   description: string;
