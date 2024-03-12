@@ -43,6 +43,7 @@ const Tasks = ({ title, tasks }: TaskProps) => {
               description={task.description}
               date={task.dueDate}
               priority={task.priority}
+              completed={task.completed}
             />
           ))}
       </div>

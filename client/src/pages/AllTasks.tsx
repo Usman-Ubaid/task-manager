@@ -5,12 +5,9 @@ import { useTask } from "../hooks/TaskContext";
 const Dashboard = () => {
   const { tasks } = useTask();
 
-  const inCompleteTasks =
-    tasks && tasks.filter((task) => task.completed === false);
-
   return (
     <Layout>
-      <Tasks title="All Tasks" tasks={inCompleteTasks} />
+      <Tasks title="All Tasks" tasks={tasks} />
     </Layout>
   );
 };

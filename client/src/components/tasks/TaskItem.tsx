@@ -1,13 +1,21 @@
 import styled from "styled-components";
+import { MdEditDocument, MdDelete } from "react-icons/md";
 
 type TaskItemProps = {
   title: string;
   description: string;
   date: string;
   priority: string;
+  completed: boolean;
 };
 
-function TaskItem({ title, description, date, priority }: TaskItemProps) {
+function TaskItem({
+  title,
+  description,
+  date,
+  priority,
+  completed,
+}: TaskItemProps) {
   const formatDate = new Date(date);
   const day = formatDate.getDay();
   const month = formatDate.getMonth() + 1;
@@ -16,24 +24,52 @@ function TaskItem({ title, description, date, priority }: TaskItemProps) {
   return (
     <TaskItemStyled>
       <h3>{title}</h3>
-      <p>{description}</p>
+      <p className="description">{description}</p>
       <p className="date">{`${day}/${month}/${year}`}</p>
       <p>Priority: {priority}</p>
+      <div className="task-footer">
+        {completed ? (
+          <button className="completed">Completed</button>
+        ) : (
+          <button className="incomplete">InComplete</button>
+        )}
+        <div className="icons-group">
+          <MdEditDocument className="icon" />
+          <MdDelete className="icon" />
+        </div>
+      </div>
     </TaskItemStyled>
   );
 }
 
 const TaskItemStyled = styled.div`
-  padding: 1.2rem 1rem;
-  border-radius: 1rem;
+  border-radius: 8px;
   background-color: rgba(249, 249, 249, 0.08);
   box-shadow: 1px 7px 12px rgba(8, 18, 69, 0.1);
   border: 2px solid rgba(249, 249, 249, 0.08);
-
+  width: 300px;
+  padding: 14px;
   height: 16rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
 
   .date {
     margin-top: auto;
@@ -44,24 +80,33 @@ const TaskItemStyled = styled.div`
     font-weight: 600;
   }
 
+  .description {
+    width: 250px;
+    height: 250px;
+  }
+
   .task-footer {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1.2rem;
 
     button {
       border: none;
       outline: none;
       cursor: pointer;
-
-      i {
-        font-size: 1.4rem;
-        color: #b2becd;
-      }
     }
 
-    .edit {
-      margin-left: auto;
+    .icons-group {
+      font-size: 1.6rem;
+
+      .icon {
+        cursor: pointer;
+      }
+
+      .icon:first-child {
+        margin-right: 10px;
+      }
     }
 
     .completed,
