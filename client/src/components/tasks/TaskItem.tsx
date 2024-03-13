@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { MdEditDocument, MdDelete } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editTask } from "../../services/taskApi";
+import { deleteTask, editTask } from "../../services/taskApi";
 import { setToastMessage } from "../../utils/toastMessage";
 
 type TaskItemProps = {
@@ -28,19 +28,34 @@ function TaskItem({
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: mutateEdit } = useMutation({
     mutationFn: (id: number) => editTask(id, completed),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      setToastMessage("success", "Task Updated Successfully");
+      setToastMessage("success", "Task Updated ");
     },
     onError() {
       setToastMessage("error", "Failed to update the task");
     },
   });
 
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: (id: number) => deleteTask(id),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      setToastMessage("success", "Task Deleted");
+    },
+    onError() {
+      setToastMessage("error", "Failed to delete the task");
+    },
+  });
+
   const handleTaskCompletion = () => {
-    mutate(id);
+    mutateEdit(id);
+  };
+
+  const handleDeleteTask = () => {
+    mutateDelete(id);
   };
 
   return (
@@ -58,7 +73,7 @@ function TaskItem({
         </button>
         <div className="icons-group">
           <MdEditDocument className="icon" />
-          <MdDelete className="icon" />
+          <MdDelete onClick={handleDeleteTask} className="icon" />
         </div>
       </div>
     </TaskItemStyled>

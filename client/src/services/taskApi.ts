@@ -41,3 +41,15 @@ export const editTask = async (id: number, completed: boolean) => {
 
   return await response.json();
 };
+
+export const deleteTask = async (id: number) => {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return await response.json();
+};
