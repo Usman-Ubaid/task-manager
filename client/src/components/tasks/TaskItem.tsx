@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { MdEditDocument, MdDelete } from "react-icons/md";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { editTask } from "../../services/taskApi";
+import { setToastMessage } from "../../utils/toastMessage";
 
 type TaskItemProps = {
+  id: number;
   title: string;
   description: string;
   date: string;
@@ -10,6 +14,7 @@ type TaskItemProps = {
 };
 
 function TaskItem({
+  id,
   title,
   description,
   date,
@@ -21,6 +26,23 @@ function TaskItem({
   const month = formatDate.getMonth() + 1;
   const year = formatDate.getFullYear();
 
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (id: number) => editTask(id, completed),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      setToastMessage("success", "Task Updated Successfully");
+    },
+    onError() {
+      setToastMessage("error", "Failed to update the task");
+    },
+  });
+
+  const handleTaskCompletion = () => {
+    mutate(id);
+  };
+
   return (
     <TaskItemStyled>
       <h3>{title}</h3>
@@ -28,11 +50,12 @@ function TaskItem({
       <p className="date">{`${day}/${month}/${year}`}</p>
       <p>Priority: {priority}</p>
       <div className="task-footer">
-        {completed ? (
-          <button className="completed">Completed</button>
-        ) : (
-          <button className="incomplete">InComplete</button>
-        )}
+        <button
+          onClick={handleTaskCompletion}
+          className={completed ? "completed" : "incomplete"}
+        >
+          {completed ? "Completed" : "InComplete"}
+        </button>
         <div className="icons-group">
           <MdEditDocument className="icon" />
           <MdDelete className="icon" />

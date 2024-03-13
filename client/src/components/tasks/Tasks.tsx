@@ -39,6 +39,7 @@ const Tasks = ({ title, tasks }: TaskProps) => {
           tasks.map((task) => (
             <TaskItem
               key={task._id}
+              id={task._id}
               title={task.title}
               description={task.description}
               date={task.dueDate}
