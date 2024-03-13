@@ -87,7 +87,7 @@ export const taskController = {
       if (dueDate) {
         task.dueDate = dueDate;
       }
-      if (completed) {
+      if (completed !== undefined) {
         task.completed = completed;
       }
 
