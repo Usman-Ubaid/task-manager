@@ -1,6 +1,14 @@
 import { FormValues } from "../hooks/useForm";
 import { getToken } from "../utils/tokenStorage";
 
+type TaskData = {
+  title?: string;
+  description?: string;
+  priority?: string;
+  dueDate?: string;
+  completed?: boolean;
+};
+
 const BASE_URL = "http://localhost:5000/api/tasks";
 const token = getToken();
 
@@ -29,14 +37,26 @@ export const getAllTasks = async () => {
   return await response.json();
 };
 
-export const editTask = async (id: number, completed: boolean) => {
+export const getSingleTask = async (id: number) => {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return await response.json();
+};
+
+export const editTask = async (id: number, taskData: TaskData) => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ completed: !completed }),
+    body: JSON.stringify(taskData),
   });
 
   return await response.json();

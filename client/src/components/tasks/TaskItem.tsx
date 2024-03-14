@@ -1,8 +1,11 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { MdEditDocument, MdDelete } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MdEditDocument, MdDelete } from "react-icons/md";
 import { deleteTask, editTask } from "../../services/taskApi";
 import { setToastMessage } from "../../utils/toastMessage";
+import Modal from "../modal/Modal";
+import EditContent from "../modal/EditContent";
 
 type TaskItemProps = {
   id: number;
@@ -21,15 +24,13 @@ function TaskItem({
   priority,
   completed,
 }: TaskItemProps) {
-  const formatDate = new Date(date);
-  const day = formatDate.getDay();
-  const month = formatDate.getMonth() + 1;
-  const year = formatDate.getFullYear();
+  const [isOpen, setIsOpen] = useState(false);
 
+  const formattedDate = new Date(date).toISOString().split("T")[0];
   const queryClient = useQueryClient();
 
   const { mutate: mutateEdit } = useMutation({
-    mutationFn: (id: number) => editTask(id, completed),
+    mutationFn: (id: number) => editTask(id, { completed }),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setToastMessage("success", "Task Updated ");
@@ -58,11 +59,22 @@ function TaskItem({
     mutateDelete(id);
   };
 
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <TaskItemStyled>
+      {isOpen && (
+        <Modal isClose={closeModal} content={<EditContent taskId={id} />} />
+      )}
       <h3>{title}</h3>
       <p className="description">{description}</p>
-      <p className="date">{`${day}/${month}/${year}`}</p>
+      <p className="date">{formattedDate}</p>
       <p>Priority: {priority}</p>
       <div className="task-footer">
         <button
@@ -72,7 +84,7 @@ function TaskItem({
           {completed ? "Completed" : "InComplete"}
         </button>
         <div className="icons-group">
-          <MdEditDocument className="icon" />
+          <MdEditDocument onClick={openModal} className="icon" />
           <MdDelete onClick={handleDeleteTask} className="icon" />
         </div>
       </div>
