@@ -2,7 +2,7 @@ import { FaPlus } from "react-icons/fa";
 import TaskItem from "./TaskItem";
 import { useState } from "react";
 import Modal from "../modal/Modal";
-import Content from "../modal/Content";
+import CreateContent from "../modal/CreateContent";
 import { StyledTaskContainer } from "../../styles/tasks/TaskContainer";
 import { Task } from "../../hooks/TaskContext";
 
@@ -26,7 +26,7 @@ const Tasks = ({ title, tasks }: TaskProps) => {
       {isOpen && (
         <Modal
           isClose={closeModal}
-          content={<Content isClose={closeModal} />}
+          content={<CreateContent isClose={closeModal} />}
         />
       )}
       <h1>{title}</h1>

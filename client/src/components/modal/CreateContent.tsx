@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SubmitButton } from "../../styles/Input";
 import Input from "../form/Input";
 import useForm, { FormValues } from "../../hooks/useForm";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setToastMessage } from "../../utils/toastMessage";
 import { addTaskApi } from "../../services/taskApi";
+import ContentStyle from "../../styles/modalContent/ContentStyle";
 
 type ContentProps = {
   isClose: () => void;
@@ -45,7 +45,7 @@ function CreateContent({ isClose }: ContentProps) {
   };
 
   return (
-    <CreateContentStyled onSubmit={handleTaskSubmit}>
+    <ContentStyle onSubmit={handleTaskSubmit}>
       <h2>Create a Task</h2>
       <div className="input-control">
         <label htmlFor="title">Title</label>
@@ -81,49 +81,8 @@ function CreateContent({ isClose }: ContentProps) {
       <div className="submit-btn ">
         <SubmitButton type="submit" value="Create Task" $isWidth={true} />
       </div>
-    </CreateContentStyled>
+    </ContentStyle>
   );
 }
-
-const CreateContentStyled = styled.form`
-  > h2 {
-    font-size: clamp(1.2rem, 5vw, 1.6rem);
-    font-weight: 600;
-  }
-
-  color: #dbe1e8;
-
-  .input-control {
-    position: relative;
-    margin: 1.6rem 0;
-    font-weight: 500;
-
-    @media screen and (max-width: 450px) {
-      margin: 1rem 0;
-    }
-
-    label {
-      margin-bottom: 0.5rem;
-      display: inline-block;
-      font-size: clamp(0.9rem, 5vw, 1.2rem);
-
-      span {
-        color: #6c7983;
-      }
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 1rem;
-      resize: none;
-      background-color: #131313;
-      color: #b2becd;
-      border-radius: 0.5rem;
-      border: none;
-      outline: none;
-    }
-  }
-`;
 
 export default CreateContent;

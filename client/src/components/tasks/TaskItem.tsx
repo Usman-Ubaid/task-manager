@@ -30,7 +30,7 @@ function TaskItem({
   const queryClient = useQueryClient();
 
   const { mutate: mutateEdit } = useMutation({
-    mutationFn: (id: number) => editTask(id, { completed }),
+    mutationFn: (id: number) => editTask(id, { completed: !completed }),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setToastMessage("success", "Task Updated ");
