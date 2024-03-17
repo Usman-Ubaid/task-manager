@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
     "test": "jest"
   },
   "keywords": [],

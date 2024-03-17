@@ -1,0 +1,35 @@
+services:
+  server:
+    container_name: back-end
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file: server/.env
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - mongodb
+
+  client:
+    container_name: front-end
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - server
+    restart: always
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_server
+
+    env_file: server/.env
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - ./mydata:/data/db
